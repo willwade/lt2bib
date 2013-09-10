@@ -9,7 +9,7 @@
 
 """
 lt2bib.py is a script that parses the files exported by LibraryThing and
-generates a BiBTeX file with the same information.
+generates a BiBTeX file with the same information. No latex support at present.
 
 Usage: lt2bib.py [-hv (-w |--worldcatlookup) (-o FILE | --outputbib FILE)] [-l FILE | -u USER -p PASS]
        lt2bib.py -h | --help
@@ -60,14 +60,5 @@ if __name__ == '__main__':
     else:
         exit('You need to provide either a CSV file or a user/pass')
             
-    # False/True if you want to fill in missing info from Worldcat
     bib_dict = lt2bib.ltcsv_to_dictdata(bookdata, arguments['--worldcatlookup'])
     lt2bib.writeBibTex(bib_dict, 'LibThing.bib')
-
-    """
-    Just not sure about LaTex! Sorry!
-    """
-    #if latex:
-    #    lt2bib.writeLaTex(bib_dict)
-    #else:
-    #    lt2bib.writeBibTex(bib_dict, 'LibThing.bib')
