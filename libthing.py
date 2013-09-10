@@ -50,7 +50,7 @@ def downloadLTCSV(user='', passw='', path='LibThing.csv'):
         if 'LTUnifiedCookie' in r.cookies:
             if r.cookies['LTUnifiedCookie'] == '%7B%22areyouhuman%22%3A1%7D':
                 #You aren't logged int
-                return None
+                return False
         
         # An authorised request.
         r = s.get('http://www.librarything.com/export-tab', stream=True)
@@ -58,6 +58,7 @@ def downloadLTCSV(user='', passw='', path='LibThing.csv'):
             with open(path, 'wb') as f:
                 for chunk in r.iter_content(1024):
                     f.write(chunk)
+            return True
             
 
 def getDictfromISBN(isbn,needItems):
