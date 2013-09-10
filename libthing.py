@@ -36,7 +36,7 @@ def downloadLTCSV(user='', passw='', path='LibThing.csv'):
         import requests
     except ImportError:
         exit('This script needs requests')
-    
+
     # Fill in your details here to be posted to the login form.
     payload = {
         'formusername': user,
@@ -51,7 +51,7 @@ def downloadLTCSV(user='', passw='', path='LibThing.csv'):
             if r.cookies['LTUnifiedCookie'] == '%7B%22areyouhuman%22%3A1%7D':
                 #You aren't logged int
                 return False
-        
+
         # An authorised request.
         r = s.get('http://www.librarything.com/export-tab', stream=True)
         if r.status_code == 200:
@@ -59,11 +59,11 @@ def downloadLTCSV(user='', passw='', path='LibThing.csv'):
                 for chunk in r.iter_content(1024):
                     f.write(chunk)
             return True
-            
+
 
 def getDictfromISBN(isbn,needItems):
     """ Sometimes the data in LibraryThing is a bit sparse. 
-    This fills it out with more info. Uses worldcat. Mileage may vary - b"""
+    This fills it out with more info. Uses worldcat. Mileage may vary. Slight concerned this may break if too many calls are made to WorldCat"""
     try:
         import xml.etree.cElementTree as ET
     except ImportError:
@@ -83,8 +83,6 @@ def getDictfromISBN(isbn,needItems):
     else:
         # wasn't a valid ISBN
         return None
-    
-  
 
 def formatBibTexLine(k, v):
     """
@@ -271,7 +269,7 @@ def ltcsv_to_dictdata(csvdata, expandWCdata=False):
             url = 'http://www.amazon.com/exec/obidos/redirect?path=ASIN/'+isbn[1:-1]
             libthingurl = 'http://www.librarything.com/isbn/'+isbn[1:-1]
         else:
-            encoded_title = urllib.quote_plus(line[1])
+            encoded_title = urllib2.quote_plus(line[1])
             libthingurl = 'http://www.librarything.com/title/'+ encoded_title
             url = 'http://www.librarything.com/title/'+ encoded_title
 
@@ -335,11 +333,6 @@ def ltcsv_to_dictdata(csvdata, expandWCdata=False):
         # work, in which it was written. You should use the standard three-letter
         # abbreviation, as described in Appendix B.1.3 of the LaTeX book.
         month = ""
-
-        # Any additional information that can help the reader. The first word
-        # should be capitalized.
-        #note = comments
-        # FIXME comment fields contain all sorts of crazy stuff
         note = comments
 
         if isbn != '' and isbn != '[]':
@@ -380,10 +373,10 @@ def ltcsv_to_dictdata(csvdata, expandWCdata=False):
             'libthingurl': libthingurl,
             'url' : url,
         }
-    
+
         if expandWCdata:
-            expandData = getDictfromISBN(isbn,{'edition','address','publisher'})
+            expandData = getDictfromISBN(isbn, {'edition','address','publisher'})
             bib_dict[key] = dict(bib_dict[key].items() + expandData.items())
-            
+
     return bib_dict
 
