@@ -19,6 +19,7 @@ The <tab-delimited-file> is exported from LibraryThing.
 import sys, codecs, re, os
 import datetime
 import cgi
+import libthing
 
 import cgitb; cgitb.enable()    # XXX for debugging
 
