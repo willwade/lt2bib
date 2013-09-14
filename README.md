@@ -5,11 +5,35 @@ LibraryThing-to-BibTeX convertor
 
 ##lt2bib.py ##
 
-A line command tool to access LibraryThing to BibTex. Will add some more flags as time goes on
+A line command tool to access LibraryThing to BibTex. 
+
+    Usage: lt2bib.py [-hv (-w |--worldcatlookup) (-o FILE | --outputbib FILE)] [-l FILE | -u USER -p PASS]
+       lt2bib.py -h | --help
+       lt2bib.py -v | --version
+
+Options:
+        -l FILE, --libthingcsv=FILE  LibraryThing exported Tab-delimited CSV
+        -u USER, --user=USER         Librarything Username
+        -p PASS, --pass=PASS         Librarything Password
+        -w, --worldcatlookup         Use worldcat to lookup and fill-in sparse LT data?
+        -o FILE, --outputbib=FILE    Path/Name of the output file (default: LibThing.bib)
+        -h, --help                   This help
+        -v, --version                Show version info
+
+For example:
+    lt2bib.py -l LibThing.csv 
+
+Will output a formatted LibThing.bib file in the same folder.
+
+    lt2bib.py -u username -p password -o MyLib.bib
+
+Will login to LibraryThing, download the correct CSV file and convert it to MyLib.bib
+
+
 
 ##libthing.py ##
 
-A poorly named (and written) library of the LibraryThingToBibtex tools. A quick aspect of functions
+A poorly named (and written) library of the LibraryThingToBibtex tools. A quick aspect of functions:
 
 ###downloadLTCSV(user,password,File) ###
 
@@ -27,6 +51,6 @@ Provide a dict structure and parse it to a BibTex file
 
 Convert a CSV file from LibraryThing to dictdata required for the Conversion (writeBibTex())
 
-##cgi/lt2bib.cgi ##
+##index.html, lt2bib.cgi##
 
-A little bit of code (and supporting php/style files) to make a web front end
+A little bit of code to make a web front end. Doesn't include a way of logging in to LibThing but just converts an already saved CSV file. 
