@@ -107,7 +107,7 @@ def writeBibTex(dictdata, bibfile="LibraryThing.bib"):
             bibentry = bibentry + formatBibTexLine(k, dictdata[n][k])
         bibentry = bibentry +"\n}"
 
-        bibtex_file.write(bibentry)
+        bibtex_file.write(unicode(bibentry).encode("utf-8"))
 
 def writeLaTex(dictdata, texfile="LibraryThing.tex"):
     """
@@ -375,8 +375,10 @@ def ltcsv_to_dictdata(csvdata, expandWCdata=False):
             'url' : url,
         }
 
-        if expandWCdata and isbn !='' and bib_dict[key] !=None:
+        if expandWCdata and isbn !='':
             expandData = getDictfromISBN(isbn, {'edition','address','publisher'})
-            bib_dict[key] = dict(bib_dict[key].items() + expandData.items())
-            
+            try:
+                bib_dict[key] = dict(bib_dict[key].items() + expandData.items())
+            except:
+                pass
     return bib_dict
